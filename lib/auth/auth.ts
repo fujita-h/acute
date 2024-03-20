@@ -47,6 +47,6 @@ function getAdapterUser(u: any): AdapterUser {
     emailVerified: u.emailVerified,
     uid: u.uid,
     roles: u.roles,
-    claims: u,
+    //claims: u.claims,
   };
 }
