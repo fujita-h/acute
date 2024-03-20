@@ -12,13 +12,10 @@ services:
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
 
-    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    network_mode: service:postgres
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
   postgres:
-    hostname: postgres
     image: postgres:16
     restart: unless-stopped
     volumes:
@@ -27,7 +24,14 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
-    # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
+
+    # Use "network_mode: service:app" to share the network stack with the app container.
+    # This means you can connect to PostgreSQL from the app container using "localhost".
+    # Be sure to update the connection string to use "localhost".
+    #network_mode: service:app
+
+    # Add "forwardPorts": ["5432"] or ["postgres:5432"] to **devcontainer.json** to forward PostgreSQL locally.
+    # Note: Use "forwardPorts": ["5432"] if you are using the network_mode property, otherwise use "forwardPorts": ["postgres:5432"].
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
 volumes:
